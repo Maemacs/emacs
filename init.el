@@ -30,13 +30,13 @@
 
 ;; User lisp packages
 (use-package user-file-backups)
-(use-package user-compilation)
+(use-package user-compilation :after (compile))
 (use-package user-completion :after (ido))
 (use-package user-confirmations)
 (use-package user-cursors :after (multiple-cursors))
 (use-package user-dired)
 (use-package user-display :init (setq using-small-screen t))
-(use-package user-emacs-specifics :init (setq using-elisp-italics))
+(use-package user-emacs-specifics :init (setq using-elisp-italics t))
 (use-package user-git :after (magit))
 (use-package user-gpg :after (epa-file))
 (use-package user-grep :init (setq using-ripgrep t))
@@ -73,6 +73,7 @@
 (use-package epa-file)
 (use-package org)
 (use-package project)
+(use-package compile)
 
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

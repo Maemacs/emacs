@@ -2,6 +2,8 @@
 
 (load-theme 'wombat)
 
+(require 'whitespace)
+
 ;; Set the font to be 'Maple Mono' at 22px tall
 ;; You can get the full list of fonts by running:
 ;; C-x C-e on the expression below:

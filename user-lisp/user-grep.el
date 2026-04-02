@@ -5,7 +5,8 @@
 
 (defcustom using-ripgrep nil
   "Whether the user is using ripgrep"
-  :type 'boolean)
+  :type 'boolean
+  :group 'user-grep)
 (when using-ripgrep
   ;; Set grep to 'rg' which is like grep, but much faster
   ;; if you are getting errors about 'rg' not existing, its because of this

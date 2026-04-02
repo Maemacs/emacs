@@ -5,3 +5,4 @@ eln-cache
 *.el~
 projects.eld
 user-lisp/.user-lisp-autoloads.el
+transient

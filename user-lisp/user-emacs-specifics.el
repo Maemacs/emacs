@@ -19,7 +19,7 @@ Type 'Ctrl h h' For a quick help popup")
 (which-key-mode)
 
 (defcustom using-elisp-italics nil
-  "Whether to use emacs lisp italic font - only works for version > 31"
+  "Whether to use emacs lisp italic font (v31)"
   :type 'boolean
   :group 'user-emacs-specifics)
 (when (>= 31 emacs-major-version)
