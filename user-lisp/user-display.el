@@ -4,6 +4,19 @@
 
 (require 'whitespace)
 
+(defcustom user-display-font "Maple Mono"
+  "The font to use"
+  :type 'string
+  :group 'user-display)
+
+(defcustom user-display-font-size 22
+  "The font size in px"
+  :type 'number
+  :group 'user-display)
+
+(if (x-list-fonts user-display-font)
+  (set-frame-font (format "%s-%d" user-display-font user-display-font-size)))
+
 ;; Set the font to be 'Maple Mono' at 22px tall
 ;; You can get the full list of fonts by running:
 ;; C-x C-e on the expression below:
