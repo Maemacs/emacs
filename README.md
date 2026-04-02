@@ -2,6 +2,8 @@
 
 ![The default emacs logo](.assets/splash.svg)
 
+## This is expected to be put in: ~/.config/emacs
+
 ## IMPORTANT!
 
 Please ensure you have emacs v31 installed, I recommend compiling from source!
@@ -14,12 +16,11 @@ Please ensure you have emacs v31 installed, I recommend compiling from source!
 git clone https://github.com/emacs-mirror/emacs && cd emacs
 ```
 
-*IMPORTANT* Make sure to add: `--with-pgtk` if you are on wayland
-
 ```bash
 ./configure \
   CFLAGS="-O2 -pipe -march=native" \
   -C \
+  --with-pgtk \
   --tree-sitter \
   --imagemagick \
   --cairo \
