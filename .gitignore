@@ -4,3 +4,4 @@ eln-cache
 *.elc
 *.el~
 projects.eld
+user-lisp/.user-lisp-autoloads.el
