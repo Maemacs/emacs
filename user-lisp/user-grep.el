@@ -1,12 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
-;; Not sure if ripgrep is AI free
-;; But the default grep that comes with macos sucks
-;; + the default grep that linux usually is bundled
-;; with is also not great
+(require 'grep)
+(require 'xref)
 
-;; Set this from 'nil' to 't' if you want to use ripgrep for grepping
-(setq using-ripgrep nil)
+(defcustom using-ripgrep nil
+  "Whether the user is using ripgrep"
+  :type 'boolean)
 (when using-ripgrep
   ;; Set grep to 'rg' which is like grep, but much faster
   ;; if you are getting errors about 'rg' not existing, its because of this
@@ -14,3 +13,5 @@
 
   ;; Tell 'xref' (the emacs system for code searching) to use rg
   (setq xref-search-program 'ripgrep))
+
+(provide 'user-grep)

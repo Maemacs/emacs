@@ -1,0 +1,6 @@
+auto-save-list
+elpa
+eln-cache
+*.elc
+*.el~
+projects.eld

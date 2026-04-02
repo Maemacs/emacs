@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'ido)
+(require 'completion-preview)
+
 ;; This makes the mini buffer that shows at the bottom
 ;; of emacs for commands and such, show completions
 ;; vertically
@@ -24,3 +27,5 @@
   "<tab>" #'completion-preview-complete
   "M-n" #'completion-preview-next-candidate
   "M-p" #'completion-preview-prev-candidate)
+
+(provide 'user-completion)
