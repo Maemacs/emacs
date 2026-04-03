@@ -17,20 +17,6 @@
   (setq default-directory (project-root (project-current)))
   (-npm-process "run" args))
 
-;; (with-temp-buffer
-;;   (read-file-name)
-;;   (json-parse-buffer))
-
-;; (transient-define-prefix npm-run ()
-;;   "Transient for running 'npm publish'"
-;; 
-;;   ["Flags"
-;;     ;; ("r" "Registry" "--registry=" :allow-empty nil)
-;;     (list ("a" "AA", "--a"))]
-;; 
-;;   ["Commands"
-;;     ("r" "Execute" -npm--run)])
-
 (defun -npm--publish (&optional args)
   "Publishing a package does not default to the project root, it default the path to the current directory"
   (interactive (list (transient-args 'npm-publish)))
@@ -61,6 +47,30 @@
       (setq default-directory -current-directory)
       (-npm-process "publish" args))))
 
+(defun -npm--add-user (&optional args)
+  (interactive (list (transient-args 'npm-add-user)))
+  (setq default-directory (project-root (project-current)))
+  ;; Switch to terminal running our npm add-user command
+  (-npm-process "add-user" args))
+
+;; ⠀⠀⠀⠀⠀⠀⠀⣤⣤⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⠀⠀⠀⠀⠀
+;; ⠀⠀⠀⠀⠀⠀⢰⡏⢻⣫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⠟⣿⠀⠀⠀⠀⠀
+;; ⠀⠀⠀⠀⡐⡄⣸⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⣿⠀⠀⠀⠀⠀
+;; ⠀⠀⣀⠠⢝⡜⣿⣿⡟⢉⣭⡝⢿⣿⣿⣿⡟⣭⣭⠉⢻⣿⡿⡠⠒⠀⠀⠀
+;; ⡴⣟⣿⣻⣆⢰⣿⣿⠀⢸⣿⣿⢸⣿⣿⣿⠙⣿⣿⠇⠈⣿⣿⠱⠭⠄⠀⠀
+;; ⢷⣿⡀⣸⣿⡞⣿⣿⣄⠀⠉⠁⣼⣿⢿⣿⣧⠈⠁⠀⣰⣿⣿⣠⣴⣶⣦⣄
+;; ⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠙⠒⠓⠒⠛⠛⠛⠛⠛⠛⠓⠻⡏⣿⣿⠿
+
+;; (transient-define-prefix npm-run ()
+;;   "Transient for running 'npm publish'"
+;; 
+;;   ["Flags"
+;;     ;; ("r" "Registry" "--registry=" :allow-empty nil)
+;;     (list ("a" "AA", "--a"))]
+;; 
+;;   ["Commands"
+;;     ("r" "Execute" -npm--run)])
+
 (transient-define-prefix npm-publish ()
   "Transient for running 'npm publish'"
 
@@ -70,12 +80,6 @@
 
   ["Commands"
     ("p" "Publish" -npm--publish)])
-
-(defun -npm--add-user (&optional args)
-  (interactive (list (transient-args 'npm-add-user)))
-  (setq default-directory (project-root (project-current)))
-  ;; Switch to terminal running our npm add-user command
-  (-npm-process "add-user" args))
 
 (transient-define-prefix npm-add-user ()
   "Transient for running 'npm add-user'"

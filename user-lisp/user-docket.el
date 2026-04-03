@@ -38,6 +38,22 @@
 
 (defun docket--ensure-no-name-collisions (given-name))
 
+(defun docket--goal-to-org-file-content (goal)
+  (format
+    "* GOAL %s\n"
+    (plist-get goal :name)))
+
+;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣶⡀⠀⠀
+;;  ⠀⠀⢠⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣾⠏⠘⠿⣦⣤
+;;  ⠀⠀⣾⠉⠻⢶⠶⠛⢻⡇⠀⠀⠀⠘⢻⡦⠀⠀⢰⡾⠃
+;;  ⢀⣤⠿⠀⠀⠀⠀⢠⡟⠁⠀⠀⠀⠀⠸⠷⠿⠿⣾⣷⠀
+;;  ⢿⣥⣀⠀⠀⠀⠀⠀⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+;;  ⠀⠈⠉⣿⣀⣾⠟⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+;;  ⠀⠀⠀⠘⠛⠁⠀⠀⠀⠀⠀⢀⣾⢻⣆⡀⠀⠀⠀⠀⠀
+;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⠃⠀⠙⠛⣿⠇⠀⠀⠀
+;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣶⡄⠀⠀⢸⣏⠀⠀⠀⠀
+;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⡷⠟⠛⠻⠿⠀⠀⠀⠀
+
 (defun docket-root-file ()
   "The root file {docket-root-folder}/root.org"
   (string-join
@@ -55,11 +71,6 @@
 	(file-name-with-extension
 	  (string-replace "/" "_or_" name)
 	  ".org")))))
-
-(defun docket--goal-to-org-file-content (goal)
-  (format
-    "* GOAL %s\n"
-    (plist-get goal :name)))
 
 (defun docket-new-goal (goal-name)
   (interactive "sGoal: \n")
