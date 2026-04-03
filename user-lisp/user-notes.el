@@ -7,16 +7,6 @@
 ;; See: 'https://orgmode.org/'
 (require 'org)
 
-(defcustom docket-file "~/.docket.org"
-  "The location of our docket file"
-  :type 'string
-  :group 'user-notes)
-
-(defun docket ()
-  "Open up our docket file"
-  (interactive)
-  (find-file docket-file))
-
 ;; When you open up a markdown file, set the mode to
 ;; Treesitter Markdown Mode
 ;; 'treesitter' is a tool for language highlighting

@@ -1,0 +1,80 @@
+;; -*- lexical-binding: t -*-
+
+(require 'org)
+(require 'ido)
+(require 'files)
+
+(defcustom docket-root-folder "~/.config/docket/"
+  "The folder for docket files to be put"
+  :type 'string
+  :group 'docket)
+
+;;                       ⠀⠀⠀⠀⢠⡶⠚⢷⣤⡀⠀⠀⠀⠀⠀⣲⡶⠛⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+;;                       ⠀⠀⠀⢠⡿⠁⠀⠀⠙⣷⣄⠀⢀⣴⡟⠁⠀⠀⢷⢹⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
+;;                       ⠀⠀⠀⣾⠃⠀⠠⠶⠚⠛⠛⠛⠛⠋⠀⠀⣀⡀⢸⠈⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+;;                       ⠀⠀⢸⣏⡔⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠚⠉⠉⣿⠀⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀
+;;                       ⠀⠀⢾⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+;;                       ⠀⢠⣿⢠⣶⡆⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+;;                       ⢒⡾⠁⠘⠟⠁⠀⠀⠀⠀⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+;;                       ⠉⣧⠀⠀⠀⠀⠃⠀⠀⠀⠈⠉⠠⣍⠀⠀⠀⠀⠀⠀⣸⡇⢀⣤⠶⠛⠛⠻⢦⣄
+;;                       ⠀⠸⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡟⣴⠟⠁⠀⠀⠀⠀⠀⢻
+;;                       ⠀⠀⠀⠛⣷⡦⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⡴⠞⠋⢠⡟⠀⠀⠀⠀⠀⠀⢀⡾
+;;                       ⠀⠀⠀⢰⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠳⣤⡀⢸⠃⠀⠀⠀⠀⢠⡶⠟⠁
+;;                       ⠀⠀⠀⣸⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢷⣹⡄⠀⠀⠀⠀⣼⠀⠀⠀
+;;                       ⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣇⠀⠀⠀⠀⢹⡄⠀⠀
+;;                       ⠀⠀⠀⢸⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⡇⠀⠀⠀⠈⣧⠀⠀
+;;                       ⠀⠀⠀⢸⡇⠘⡇⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⢹⡇⠀
+;;                       ⠀⠀⠀⢸⡇⠀⠙⠀⠀⠀⠀⠀⢠⠞⠁⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⢸⡇⠀
+;;                       ⠀⠀⠀⢸⡇⠀⢸⡆⠀⠀⠀⠀⣟⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⠀⠀⠀⠀⣸⠇⠀
+;;                       ⠀⠀⠀⢸⣿⠀⠀⡇⠀⠀⠀⠀⣿⡀⠀⠀⠀⠀⠀⠀⣠⢇⡿⠀⠀⢀⣴⡟⠁⠀
+;;                       ⠀⠀⠀⠘⠿⠶⢶⢧⣦⣦⡴⢾⣥⣽⣤⣤⣤⣤⣤⣤⡿⣯⡤⠴⠶⠛⠋⠀⠀
+
+(defvar --docket--last-id nil "The the last id used")
+
+(defun docket--time-to-string (time)
+  (string-join
+    (mapcar 'number-to-string (current-time))
+    "-"))
+
+(defun docket--ensure-no-name-collisions (given-name))
+
+(defun docket-root-file ()
+  "The root file {docket-root-folder}/root.org"
+  (string-join
+    (list (file-name-directory docket-root-folder) "root.org") ""))
+
+(defun docket-goal-init (name)
+  (let ((id (org-id-new)))
+    (list
+      :id id
+      :name name
+      :root-file
+      (format "%s%s/%s"
+	(file-name-directory docket-root-folder)
+	id
+	(file-name-with-extension
+	  (string-replace "/" "_or_" name)
+	  ".org")))))
+
+(defun docket--goal-to-org-file-content (goal)
+  (format
+    "* GOAL %s\n"
+    (plist-get goal :name)))
+
+(defun docket-new-goal (goal-name)
+  (interactive "sGoal: \n")
+
+  (let* ((-goal (docket-goal-init goal-name))
+	  (-goal-file (plist-get -goal :root-file)))
+    (mkdir (file-name-directory -goal-file) t)
+    (with-temp-file
+      -goal-file
+      (insert (docket--goal-to-org-file-content -goal)))
+    (find-file -goal-file)))
+
+(defun docket ()
+  "Open up our docket file"
+  (interactive)
+  (find-file (docket-root-file)))
+
+(provide 'user-docket)

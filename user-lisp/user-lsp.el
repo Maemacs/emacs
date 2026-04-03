@@ -26,6 +26,9 @@
 ;;   npm i -g typescript typescript-language-server
 (add-to-list 'major-mode-remap-alist '(js-mode . typescript-ts-mode))
 (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
+(add-hook 'c-mode-hook 'c-ts-mode)
+(add-hook 'c-ts-mode 'bind-clang-format)
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 
 ;; Tell emacs to avoid displaying 'inlay hints'
 ;;   Inlay hints turn stuff like this:
