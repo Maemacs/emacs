@@ -14,15 +14,23 @@
   :type 'number
   :group 'user-display)
 
-(if (x-list-fonts user-display-font)
-  (set-frame-font (format "%s-%d" user-display-font user-display-font-size)))
+(defcustom user-display-stream-font-size 28
+  "The font size used for streaming"
+  :type 'number
+  :group 'user-display)
+
+(defun user-display-set-font (-font-name -font-size)
+  "Sets the display font with given size"
+  (interactive)
+  (set-frame-font (format "%s-%d" -font-name -font-size)))
 
 ;; Set the font to be 'Maple Mono' at 22px tall
 ;; You can get the full list of fonts by running:
 ;; C-x C-e on the expression below:
 ;;   (x-list-fonts "*") <-- Right here!
-(if (x-list-fonts "Maple Mono")
-  (set-frame-font "Maple Mono-22" nil))
+(if (x-list-fonts user-display-font)
+  (user-display-set-font user-display-font user-display-font-size)
+  (error "Font: `%s` not found in x-list-fonts" user-display-font))
 
 ;; Show the file column number on the left hand side!
 (setq column-number-mode t)
