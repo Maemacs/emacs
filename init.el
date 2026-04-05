@@ -43,7 +43,7 @@
 (use-package user-keys)
 (use-package user-lsp)
 (use-package user-macos)
-(use-package user-notes :after (org user-docket))
+(use-package user-notes :after (org user-docket project))
 (use-package user-project :after (project))
 (use-package user-tree-sitter)
 (use-package user-web-mode :after (web-mode))
