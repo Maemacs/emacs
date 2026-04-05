@@ -43,6 +43,11 @@
 ;;     "* GOAL %s\n"
 ;;     (plist-get goal :name)))
 
+(defun docket-root-file ()
+  "The root file {docket-root-folder}/root.org"
+  (string-join
+    (list (file-name-directory docket-root-folder) "root.org") ""))
+
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣶⡀⠀⠀
 ;;  ⠀⠀⢠⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣾⠏⠘⠿⣦⣤
 ;;  ⠀⠀⣾⠉⠻⢶⠶⠛⢻⡇⠀⠀⠀⠘⢻⡦⠀⠀⢰⡾⠃
@@ -53,11 +58,6 @@
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⠃⠀⠙⠛⣿⠇⠀⠀⠀
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣶⡄⠀⠀⢸⣏⠀⠀⠀⠀
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⡷⠟⠛⠻⠿⠀⠀⠀⠀
-
-(defun docket-root-file ()
-  "The root file {docket-root-folder}/root.org"
-  (string-join
-    (list (file-name-directory docket-root-folder) "root.org") ""))
 
 ;; (defun docket-goal-init (name)
 ;;   (let ((id (org-id-new)))
