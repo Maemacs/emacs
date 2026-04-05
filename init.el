@@ -43,7 +43,7 @@
 (use-package user-keys)
 (use-package user-lsp)
 (use-package user-macos)
-(use-package user-notes :after (org))
+(use-package user-notes :after (org user-docket))
 (use-package user-project :after (project))
 (use-package user-tree-sitter)
 (use-package user-web-mode :after (web-mode))
@@ -64,7 +64,7 @@
        (project-magit-status "Magit" "m")
        (project-eshell "Eshell")
        (project-compile "Compile"))))
-(use-package user-docket :after (user-org org))
+(use-package user-docket :after (org))
 
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠖⢲⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠤⠖⠒⠛⠉⠉⠉⠛⠻⢦⡀⠈⡇⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -128,7 +128,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(initial-scratch-message "")
  '(make-backup-files nil)
+ '(org-agenda-files
+    '("/Users/zoft/.config/docket/home.org"
+       "/Users/zoft/.config/docket/electralysis.org"
+       "/Users/zoft/.config/docket/growth.org"
+       "/Users/zoft/.config/docket/root.org"))
  '(package-selected-packages '(exec-path-from-shell magit multiple-cursors web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
