@@ -84,14 +84,14 @@
 (use-package user-git :after (magit))
 (use-package user-gpg :after (epa-file))
 (use-package user-grep :init (setq using-ripgrep nil))
-(use-package user-keys :after (user-display))
+(use-package user-keys)
 (use-package user-lsp)
 ;; (use-package user-macos :if (memq window-system '(mac ns)))
 (use-package user-notes :after (org user-docket project))
 (use-package user-project :after (project))
 (use-package user-tree-sitter)
 (use-package user-kallie
-  :after (evil gruvbox-theme)
+  :after (evil gruvbox-theme user-display)
   :init (setq use-evil-mode 1))
 (use-package user-web-mode :after (web-mode))
 (use-package user-npm :after (transient magit project) :config
