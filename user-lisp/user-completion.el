@@ -10,7 +10,7 @@
 
 ;; This makes the completions that you get in the mini buffer
 ;; work how everyone who isn't a power user would expect them to work
-(setq completion-styles '(emacs22 substring))
+(setq completion-styles '(substring))
 (defun my-icomplete-styles () (setq-local completion-styles '(substring)))
 (add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
 
