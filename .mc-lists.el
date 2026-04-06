@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
 	 evil-insert
+	 evil-open-below
 	 org-self-insert-command
 	 ))
 

@@ -39,17 +39,17 @@
 ;; 2. ./user-lisp/user-kallie.el
 ;;  - Note if you edit this file and there is a user-kallie.elc - you need to recompile the file
 ;;    with:
-;;      :elisp-byte-compile-file
+;;      :elisp-byte-compile-file or M-x elisp-byte-compile-file
 ;;
 ;; 3. Dont know what something does? run:
-;;   :xref-find-definitions
-;;   :describe-function
-;;   :describe-variable
-;;   :describe-mode
+;;   :xref-find-definitions or M-x xref-find-definitions
+;;   :describe-function or M-x describe-function
+;;   :describe-variable or M-x describe-variable
+;;   :describe-mode or M-x describe-mode
 ;;   while you have the cursor over the item
 ;;
 ;; 4. Is the theme a bit odd? No worries! customize it with
-;;   :describe-theme
+;;   :describe-theme or M-x describe-theme
 ;; and click / press enter on the [customize] keyword
 ;;
 ;; 5. type C-h h
@@ -57,15 +57,13 @@
 ;; 6. C-x f, C-x C-f, and C-x C-b are your best friends
 ;;
 ;; 7. search: -alpha 70
-;;    For the background transparency value 
-
-;; Quick $PATH setup for Macos users
-;; (if (memq window-system '(mac ns))
-;;   ;; Macos doesnt set the path for applications properly
-;;   ;; This package fixes that
-;;   (use-package exec-path-from-shell :ensure t :config
-;;     (setq exec-path-from-shell-debug t)
-;;     (exec-path-from-shell-initialize)))
+;;    For the background transparency value
+;;
+;; 8.
+;;   :increase-font-size or M-x increase-font-size
+;;   :decrease-font-size or M-x decrease-font-size
+;;   :use-stream-font-size or M-x use-stream-font-size
+;;   :use-normal-font-size or M-x use-normal-font-size
 
 ;; User lisp packages
 (use-package user-file-backups)
@@ -79,7 +77,7 @@
   (if (x-list-fonts "PxPlus IBM VGA8")
     (setq user-display-font "PxPlus IBM VGA8")) 
   (setq user-display-font-size 22)
-  (setq user-display-stream-font-size 26))
+  (setq user-display-stream-font-size-modifier 4))
 (use-package user-emacs-specifics :init (setq using-elisp-italics nil))
 (use-package user-git :after (magit))
 (use-package user-gpg :after (epa-file))

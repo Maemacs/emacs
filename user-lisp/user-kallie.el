@@ -15,7 +15,7 @@
 ;; ⠀⠀⠀⢀⣘⠈⢂⠃⣧⡹⣿⣷⡄⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣅⡙⢿⣟⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⡕⠂
 ;; ⠀⠀⠀⠀⠀⠀⠛⢷⣜⢷⡌⠻⣿⣿⣦⣝⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣹⣷⣦⣹⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠉⠃⠀
 
-(defcustom use-evil-mode 1
+(defcustom use-evil-mode 0
   "Whether to use evil mode or not"
   :type 'number
   :group 'user-kallie)
@@ -64,24 +64,6 @@
   "Use new lines after the `fill-column`"
   (setq fill-column 79)
   (visual-line-mode t))
-
-(defun increase-font-size ()
-  "Increases font size"
-  (interactive)
-  (text-scale-adjust 1))
-
-(defun decrease-font-size ()
-  "Decreases font size"
-  (interactive)
-  (text-scale-adjust -1))
-
-(defun use-stream-font-size ()
-  "Set the font to use the stream font size"
-  (user-display-set-font user-display-font user-display-stream-font-size))
-
-(defun use-normal-font-size ()
-  "Set the font to the normal font size"
-  (user-display-set-font user-display-font user-display-font-size))
 
 ;;            ⣤⡶⢶⣦⡀
 ;;  ⠀⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿
@@ -155,15 +137,18 @@
 ;; | .-. ' ,--. |      \ ' .-. | ,--. |      \ | .-. | (  .-'  
 ;; | `-' | |  | |  ||  | \ `-' | |  | |  ||  | ' '-' ' .-'  `) 
 ;;  `---'  `--' `--''--'  `---'  `--' `--''--' .`-  /  `----'  
-;;                                             `---'           
+;;                                             `---'
 
 (evil-define-key 'normal 'global (kbd "<Home>") 'back-to-indentation)
 (evil-define-key 'insert 'global (kbd "<Home>") 'to-normal-and-back-to-indentation)
 
-(global-set-key (kbd "C-=") 'increase-font-size)
-(global-set-key (kbd "C--") 'decrease-font-size)
-(global-set-key (kbd "C-0") 'use-stream-font-size)
-(global-set-key (kbd "C-9") 'use-normal-font-size)
+;;;; Attempted to get font size keymaps working, but evil mode is just bing so
+;;   odd about this
+;;   sorry
+;;; (evil-define-key nil evil-normal-state-map (kbd "C-w -") 'decrease-font-size)
+;;; (evil-define-key nil evil-normal-state-map (kbd "C-w =") 'increase-font-size)
+;;; (evil-define-key nil evil-normal-state-map (kbd "C-w 9") 'use-normal-font-size)
+;;; (evil-define-key nil evil-normal-state-map (kbd "C-w 0") 'use-stream-font-size)
 
 ;;; Just press 'y' - evil yanks to the clipboard in emacs
 ;; (evil-define-key 'visual 'global (kbd "C-<Insert>") 'kill-ring-save)

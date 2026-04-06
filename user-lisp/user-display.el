@@ -14,15 +14,63 @@
   :type 'number
   :group 'user-display)
 
-(defcustom user-display-stream-font-size 28
-  "The font size used for streaming"
+(defcustom user-display-stream-font-size-modifier 4
+  "How much to add to the display font size for streaming"
   :type 'number
   :group 'user-display)
 
-(defun user-display-set-font (-font-name -font-size)
+(defcustom user-display--font-size-modifier 0
+  "The amount to add to the current font size"
+  :type 'number
+  :group 'user-display)
+
+(defun user-display-set-font (-font-name)
   "Sets the display font with given size"
   (interactive)
-  (set-frame-font (format "%s-%d" -font-name -font-size)))
+  (set-frame-font (format "%s-%d"
+		    -font-name
+		    (+ user-display--font-size-modifier user-display-font-size))))
+
+(defun user-display-update-font ()
+  "Updates the display font"
+  (user-display-set-font user-display-font))
+
+(defun user-display-increment-font-size (&optional amount)
+  "Increase the current font size"
+  (interactive)
+  (let ((-amount (or amount 1)))
+    (setq user-display--font-size-modifier (+ -amount user-display--font-size-modifier)))
+  (user-display-update-font))
+
+(defun user-display-use-stream-font-size ()
+  "Set the current font size to the stream font size"
+  (setq user-display--font-size-modifier user-display-stream-font-size-modifier)
+  (user-display-update-font))
+
+(defun user-display-use-normal-font-size ()
+  "Set the current font size to the stream font size"
+  (setq user-display--font-size-modifier 0)
+  (user-display-update-font))
+
+(defun increase-font-size ()
+  "Increases font size"
+  (interactive)
+  (user-display-increment-font-size 1))
+
+(defun decrease-font-size ()
+  "Decreases font size"
+  (interactive)
+  (user-display-increment-font-size (- 1)))
+
+(defun use-stream-font-size ()
+  "Set the font to use the stream font size"
+  (interactive)
+  (user-display-use-stream-font-size))
+
+(defun use-normal-font-size ()
+  "Set the font to the normal font size"
+  (interactive)
+  (user-display-use-normal-font-size))
 
 ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣶⡀⠀⠀
 ;;  ⠀⠀⢠⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣾⠏⠘⠿⣦⣤
@@ -40,7 +88,7 @@
 ;; C-x C-e on the expression below:
 ;;   (x-list-fonts "*") <-- Right here!
 (if (x-list-fonts user-display-font)
-  (user-display-set-font user-display-font user-display-font-size)
+  (user-display-update-font)
   (error "Font: `%s` not found in x-list-fonts" user-display-font))
 
 ;; Show the file column number on the left hand side!
