@@ -66,133 +66,145 @@
 ;;   :use-normal-font-size or M-x use-normal-font-size
 
 ;; User lisp packages
-(use-package user-file-backups)
-(use-package user-compilation :after (compile))
-(use-package user-completion :after (ido))
-(use-package user-confirmations)
-(use-package user-cursors :after (multiple-cursors))
-(use-package user-dired)
-(use-package user-display :init
-  (setq using-small-screen nil)
-  (if (x-list-fonts "PxPlus IBM VGA8")
-    (setq user-display-font "PxPlus IBM VGA8")) 
-  (setq user-display-font-size 22)
-  (setq user-display-stream-font-size-modifier 4))
-(use-package user-emacs-specifics :init (setq using-elisp-italics nil))
-(use-package user-git :after (magit))
-(use-package user-gpg :after (epa-file))
-(use-package user-grep :init (setq using-ripgrep nil))
-(use-package user-keys)
-(use-package user-lsp)
-;; (use-package user-macos :if (memq window-system '(mac ns)))
-(use-package user-notes :after (org user-docket project))
-(use-package user-project :after (project))
-(use-package user-tree-sitter)
-(use-package user-kallie
-  :after (evil gruvbox-theme user-display)
-  :init (setq use-evil-mode 1))
-(use-package user-web-mode :after (web-mode))
-(use-package user-npm :after (transient magit project) :config
-  (add-to-list 'project-switch-commands '(project-npm "npm" "n"))
-  (global-set-key (kbd "C-x p n") 'project-npm))
-(use-package user-startup :after (magit project) :config
-  (defalias 'project-magit-status 'magit-status-setup-buffer)
+(add-hook 'after-init-hook
+  (lambda ()
+    ;; Non lisp packages
+    (use-package magit :ensure t)
+    (use-package multiple-cursors :ensure t)
+    (use-package web-mode :ensure t)
+    (use-package evil :ensure t
+      :init (defvar evil-mode-buffers '()
+	            "Evil has a bug in current version where this isnt defined in emacs v31"))
+    (use-package ido)
+    (use-package epa-file)
+    (use-package org)
+    (use-package project)
+    (use-package compile)
+    (use-package gruvbox-theme :ensure t
+      :config
+      ;; This is the closest theme to 'melange' that I could find for emacs sadly.
+      ;; BUT! You can configure the theme to 'behave' like 'melange' in terms of highlighting
+      ;; by configuring what colors are used for functions, keywords, etc
+      ;; Customiez the theme through the 'custom-theme-set-faces below
+      ;; Or use :customize-face <face> to customize the face you want
+      ;;   'face's are font faces, its the word for every cell
+      ;;           If you want to know what the face is called, you can use :describe-face -
+      ;;           the face at the current cursor position will be displayed as the first option to select from
+      ;; I (zoftie) would be happy to send you a video showing an example how to do this
+      ;;   (its much simpler than it seems)
+      ;; Alternatively - 'melpa' can be added as a possible repository, and there is a doom-ayu theme
+      ;; Which is available in doom-themes - WARNING, if you try out 'doom' emacs - it will overwrite core emacs files.
+      (load-theme 'gruvbox-dark-hard t)
+      
+      (custom-theme-set-faces
+        'gruvbox-dark-hard
+        '(line-number ((t (:foreground "#7c6f64" :background nil))))
+        '(line-number-current-line ((t (:foreground "#fe8019" :background nil)))))
 
-  ;; These are the commands that show when you select a project with C-x p p
-  (setq project-switch-commands
-    '((project-find-file "Find file")
-       (project-find-regexp "Find regexp")
-       (project-find-dir "Find directory")
-       (project-magit-status "Magit" "m")
-       (project-eshell "Eshell")
-       (project-compile "Compile"))))
-(use-package user-docket :after (org))
+      ;; Set the background transparency - doesnt work on macos or windows
+      ;; If this isnt working on linux, you are probably building emacs without the --with-cairo configuration
+      (let ((-alpha 70))
+        (set-frame-parameter nil 'alpha-background -alpha)
+        (add-to-list 'default-frame-alist (cons 'alpha-background -alpha))))
 
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠖⢲⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠤⠖⠒⠛⠉⠉⠉⠛⠻⢦⡀⠈⡇⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⢀⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠦⣿⠀⡏⡬⣍⣲⡤⠤⠤⠤⠤⠤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⢀⡤⠖⠚⢉⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄⡧⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠦⣀⠀⠀⠀⠀⠀
-;;  ⠙⣷⠅⢀⡎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠤⠤⢄⣀
-;;  ⠀⠘⣦⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⣿⠋⠀⠠⡇⠀⡾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢱⡈⡆⡟
-;;  ⠀⠀⠈⡏⠀⠀⠀⠀⠀⠀⠠⣿⣷⠀⠰⡏⢻⠉⠀⢸⡀⠀⠀⡇⠀⢹⣿⢆⢀⡀⠀⠀⠀⠀⢠⡀⠀⠀⠀⠀⠀⠟⡼⠁
-;;  ⠀⠀⠀⣧⠀⠀⠀⠀⠀⠀⠀⠉⠉⠀⠀⠸⣸⡆⠀⠀⠁⠀⠀⡇⠀⢰⡇⠈⠉⠛⠂⠸⣿⠆⠈⠁⠀⠀⠀⠀⠀⡟⠀⠀
-;;  ⠀⠀⠀⢸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡇⠀⠀
-;;  ⠀⠀⠀⠀⢿⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡴⠢⠧⠤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠛⠿⣦⣀⣀⣠⣤⣤⠖⠀⠀⠀⠀⠀⠐⢦⣳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠇⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⣰⡿⠃⠀⠀⠀⠀⠀⠀⢢⠀⠈⠉⢻⡗⠂⠀⠀⠀⠀⠀⠀⠙⠲⣶⠦⠤⠔⠚⠁⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣻⠁⠀⠀⠀⠀⠀⠀⠀⠈⣉⣙⠚⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢦⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢱⡟⠲⡴⠒⠲⠆⠀⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⢀⡞⠻⡄⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠢⡸⠁⠀⠀⠀⠀⠀⠀⠀⠀⡀⡸⠻⡀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠈⢷⣄⠙⠚⠛⢳⡤⣦⣄⣰⣴⠶⠶⠴⠶⠼⠷⠶⠤⠤⠤⠤⠤⠦⢴⡋⠉⠁⣰⠃⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠓⠒⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠖⢲⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠤⠖⠒⠛⠉⠉⠉⠛⠻⢦⡀⠈⡇⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⢀⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠦⣿⠀⡏⡬⣍⣲⡤⠤⠤⠤⠤⠤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⢀⡤⠖⠚⢉⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄⡧⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠦⣀⠀⠀⠀⠀⠀
+    ;;  ⠙⣷⠅⢀⡎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠤⠤⢄⣀
+    ;;  ⠀⠘⣦⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⣿⠋⠀⠠⡇⠀⡾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢱⡈⡆⡟
+    ;;  ⠀⠀⠈⡏⠀⠀⠀⠀⠀⠀⠠⣿⣷⠀⠰⡏⢻⠉⠀⢸⡀⠀⠀⡇⠀⢹⣿⢆⢀⡀⠀⠀⠀⠀⢠⡀⠀⠀⠀⠀⠀⠟⡼⠁
+    ;;  ⠀⠀⠀⣧⠀⠀⠀⠀⠀⠀⠀⠉⠉⠀⠀⠸⣸⡆⠀⠀⠁⠀⠀⡇⠀⢰⡇⠈⠉⠛⠂⠸⣿⠆⠈⠁⠀⠀⠀⠀⠀⡟⠀⠀
+    ;;  ⠀⠀⠀⢸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡇⠀⠀
+    ;;  ⠀⠀⠀⠀⢿⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡴⠢⠧⠤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠛⠿⣦⣀⣀⣠⣤⣤⠖⠀⠀⠀⠀⠀⠐⢦⣳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠇⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⣰⡿⠃⠀⠀⠀⠀⠀⠀⢢⠀⠈⠉⢻⡗⠂⠀⠀⠀⠀⠀⠀⠙⠲⣶⠦⠤⠔⠚⠁⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣻⠁⠀⠀⠀⠀⠀⠀⠀⠈⣉⣙⠚⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢦⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢱⡟⠲⡴⠒⠲⠆⠀⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⢀⡞⠻⡄⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠢⡸⠁⠀⠀⠀⠀⠀⠀⠀⠀⡀⡸⠻⡀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠈⢷⣄⠙⠚⠛⢳⡤⣦⣄⣰⣴⠶⠶⠴⠶⠼⠷⠶⠤⠤⠤⠤⠤⠦⢴⡋⠉⠁⣰⠃⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠓⠒⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀
 
-;; Non user-lisp packages
-(use-package magit :ensure t)
-(use-package multiple-cursors :ensure t)
-(use-package web-mode :ensure t)
-(use-package evil :ensure t
-  :init (defvar evil-mode-buffers '()
-	  "Evil has a bug in current version where this isnt defined in emacs v31"))
-(use-package ido)
-(use-package epa-file)
-(use-package org)
-(use-package project)
-(use-package compile)
-(use-package gruvbox-theme :ensure t
-  :config
-  ;; This is the closest theme to 'melange' that I could find for emacs sadly.
-  ;; BUT! You can configure the theme to 'behave' like 'melange' in terms of highlighting
-  ;; by configuring what colors are used for functions, keywords, etc
-  ;; Customiez the theme through the 'custom-theme-set-faces below
-  ;; Or use :customize-face <face> to customize the face you want
-  ;;   'face's are font faces, its the word for every cell
-  ;;           If you want to know what the face is called, you can use :describe-face -
-  ;;           the face at the current cursor position will be displayed as the first option to select from
-  ;; I (zoftie) would be happy to send you a video showing an example how to do this
-  ;;   (its much simpler than it seems)
-  ;; Alternatively - 'melpa' can be added as a possible repository, and there is a doom-ayu theme
-  ;; Which is available in doom-themes - WARNING, if you try out 'doom' emacs - it will overwrite core emacs files.
-  (load-theme 'gruvbox-dark-hard t)
-  
-  (custom-theme-set-faces
-    'gruvbox-dark-hard
-    '(line-number ((t (:foreground "#7c6f64" :background nil))))
-    '(line-number-current-line ((t (:foreground "#fe8019" :background nil)))))
 
-  ;; Set the background transparency - doesnt work on macos or windows
-  ;; If this isnt working on linux, you are probably building emacs without the --with-cairo configuration
-  (let ((-alpha 70))
-    (set-frame-parameter nil 'alpha-background -alpha)
-    (add-to-list 'default-frame-alist (cons 'alpha-background -alpha))))
+    ;; Load all the user files
+    (mapcar
+      'load
+      (directory-files "~/.config/emacs/user" t ".el"))
 
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣭⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⠤⢤⣀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠴⠒⢋⣉⣀⣠⣄⣀⣈⡇
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣯⠴⠚⠉⠉⠀⠀⠀⠀⣤⠏⣿
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⡿⡇⠁⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⡿⠿⢛⠁⠁⣸⠀⠀⠀⠀⠀⣤⣾⠵⠚⠁
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⢦⡀⠀⣠⠀⡇⢧⢄⡀⢀⢠⡜⠃⠀⠀⠀⠀⠀⣠⣴⠿⠋⠁⠀⠀⠀⠀⠘⣿⠀⣀⡠⠞⠛⠁⠂⠁⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡋⣻⡦⣞⡿⣷⠸⣜⣡⢶⣻⠁⠀⠀⠀⣀⣴⠟⠋⠁⠀⠀⠀⠀⣐⡤⡤⣾⣙⣶⡶⠃⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣂⡷⠰⣟⣿⣖⣾⡷⢿⣓⣀⣀⣤⢾⣋⠁⠀⠀⠀⣀⢀⣀⣠⣞⣉⠁⢀⢿⠑⠃⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠤⡤⠴⠴⠤⠦⠤⠤⠤⠤⠤⠴⠶⢾⣽⣙⠒⢺⣿⣿⣿⣿⢾⠶⣧⡼⢏⠑⠚⠋⠉⠉⡉⡉⠉⠉⠹⠈⠁⠉⠀⠨⢾⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠀⠂⠐⠀⠀⢀⡭⣇⡿⢯⢻⣟⣇⣷⣞⡛⠁⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣆⠚⠚⠁⠀⢠⡷⡛⣛⣼⣿⠟⠙⣧⠅⡄⠀⠀⠀⠀⠀⠀⠰⡇⠀⠀⠀⠀⢠⣾⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⢶⠏⠉⠀⠀⠀⠀⠀⠿⢠⣴⡟⡗⡾⡒⠖⠉⠏⠁⠀⠀⢀⣀⣀⢀⣠⣧⣀⣀⣀⣀⠀⠚⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⣠⢴⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣠⣷⢿⠋⠁⣷⡏⠅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⣿⢭⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⢀⡴⢏⡵⠛⠀⠀⠀⠀⠀⠀⠀⣀⣴⠞⠛⠀⠀⠀⠀⢿⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⢿⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⣀⣼⠛⣲⡏⠁⠀⠀⠀⠀⠀⢀⣠⡾⠋⠉⠀⠀⠀⠀⠀⠀⢾⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡨⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⡴⠟⠀⢰⡯⠄⠀⠀⠀⠀⣠⢴⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⡾⠁⠁⠀⠘⠧⠤⢤⣤⠶⠏⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠘⣇⠂⢀⣀⣀⠤⠞⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠈⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-;;  
+    (use-package user-file-backups)
+    (use-package user-compilation :after (compile))
+    (use-package user-completion :after (ido))
+    (use-package user-confirmations)
+    (use-package user-cursors :after (multiple-cursors))
+    (use-package user-dired)
+    (use-package user-display :init
+      (setq using-small-screen nil)
+      (if (x-list-fonts "PxPlus IBM VGA8")
+        (setq display-font "PxPlus IBM VGA8")) 
+      (setq display-font-size 22)
+      (setq display-stream-font-size-modifier 4))
+    (use-package user-emacs-specifics :init (setq using-elisp-italics nil))
+    (use-package user-git :after (magit))
+    (use-package user-gpg :after (epa-file))
+    (use-package user-grep :init (setq using-ripgrep nil))
+    (use-package user-keys)
+    (use-package user-lsp)
+    ;; (use-package user-macos :if (memq window-system '(mac ns)))
+    (use-package user-notes :after (org docket project))
+    (use-package user-project :after (project))
+    (use-package user-tree-sitter)
+    (use-package user-kallie
+      :after (evil gruvbox-theme display)
+      :init (setq use-evil-mode 1))
+    (use-package user-web-mode :after (web-mode))
+    (use-package user-npm :after (transient magit project) :config
+      (add-to-list 'project-switch-commands '(project-npm "npm" "n"))
+      (global-set-key (kbd "C-x p n") 'project-npm))
+    (use-package user-startup :after (magit project) :config
+      ;; (defun project-magit-status ()
+      ;;   (interactive "P")
+      ;;   (project-current nil)
+      ;;   (magit-status-setup-buffer))
+
+      ;; These are the commands that show when you select a project with C-x p p
+      (setq project-switch-commands
+        '((project-find-file "Find file")
+           (project-find-regexp "Find regexp")
+           (project-find-dir "Find directory")
+           ;; (project-magit-status "Magit" "m") TODO: Fix project selection
+           (project-eshell "Eshell")
+           (project-compile "Compile"))))
+    (use-package user-docket :after (org))
+
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣭⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⠤⢤⣀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠴⠒⢋⣉⣀⣠⣄⣀⣈⡇
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣯⠴⠚⠉⠉⠀⠀⠀⠀⣤⠏⣿
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⡿⡇⠁⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⡿⠿⢛⠁⠁⣸⠀⠀⠀⠀⠀⣤⣾⠵⠚⠁
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⢦⡀⠀⣠⠀⡇⢧⢄⡀⢀⢠⡜⠃⠀⠀⠀⠀⠀⣠⣴⠿⠋⠁⠀⠀⠀⠀⠘⣿⠀⣀⡠⠞⠛⠁⠂⠁⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡋⣻⡦⣞⡿⣷⠸⣜⣡⢶⣻⠁⠀⠀⠀⣀⣴⠟⠋⠁⠀⠀⠀⠀⣐⡤⡤⣾⣙⣶⡶⠃⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣂⡷⠰⣟⣿⣖⣾⡷⢿⣓⣀⣀⣤⢾⣋⠁⠀⠀⠀⣀⢀⣀⣠⣞⣉⠁⢀⢿⠑⠃⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠤⡤⠴⠴⠤⠦⠤⠤⠤⠤⠤⠴⠶⢾⣽⣙⠒⢺⣿⣿⣿⣿⢾⠶⣧⡼⢏⠑⠚⠋⠉⠉⡉⡉⠉⠉⠹⠈⠁⠉⠀⠨⢾⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠀⠂⠐⠀⠀⢀⡭⣇⡿⢯⢻⣟⣇⣷⣞⡛⠁⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣆⠚⠚⠁⠀⢠⡷⡛⣛⣼⣿⠟⠙⣧⠅⡄⠀⠀⠀⠀⠀⠀⠰⡇⠀⠀⠀⠀⢠⣾⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⢶⠏⠉⠀⠀⠀⠀⠀⠿⢠⣴⡟⡗⡾⡒⠖⠉⠏⠁⠀⠀⢀⣀⣀⢀⣠⣧⣀⣀⣀⣀⠀⠚⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⣠⢴⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣠⣷⢿⠋⠁⣷⡏⠅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⣿⢭⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⢀⡴⢏⡵⠛⠀⠀⠀⠀⠀⠀⠀⣀⣴⠞⠛⠀⠀⠀⠀⢿⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⢿⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⣀⣼⠛⣲⡏⠁⠀⠀⠀⠀⠀⢀⣠⡾⠋⠉⠀⠀⠀⠀⠀⠀⢾⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡨⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⡴⠟⠀⢰⡯⠄⠀⠀⠀⠀⣠⢴⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⡾⠁⠁⠀⠘⠧⠤⢤⣤⠶⠏⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠘⣇⠂⢀⣀⣀⠤⠞⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠈⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ;;  
+    ))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
