@@ -96,14 +96,17 @@
   (add-to-list 'project-switch-commands '(project-npm "npm" "n"))
   (global-set-key (kbd "C-x p n") 'project-npm))
 (use-package user-startup :after (magit project) :config
-  (defalias 'project-magit-status 'magit-status-setup-buffer)
+  ;; (defun project-magit-status ()
+  ;;   (interactive "P")
+  ;;   (project-current nil)
+  ;;   (magit-status-setup-buffer))
 
   ;; These are the commands that show when you select a project with C-x p p
   (setq project-switch-commands
     '((project-find-file "Find file")
        (project-find-regexp "Find regexp")
        (project-find-dir "Find directory")
-       (project-magit-status "Magit" "m")
+       ;; (project-magit-status "Magit" "m") TODO: Fix project selection
        (project-eshell "Eshell")
        (project-compile "Compile"))))
 (use-package user-docket :after (org))
