@@ -60,12 +60,12 @@
 ;;    For the background transparency value 
 
 ;; Quick $PATH setup for Macos users
-(if (memq window-system '(mac ns))
-  ;; Macos doesnt set the path for applications properly
-  ;; This package fixes that
-  (use-package exec-path-from-shell :ensure t :config
-    (setq exec-path-from-shell-debug t)
-    (exec-path-from-shell-initialize)))
+;; (if (memq window-system '(mac ns))
+;;   ;; Macos doesnt set the path for applications properly
+;;   ;; This package fixes that
+;;   (use-package exec-path-from-shell :ensure t :config
+;;     (setq exec-path-from-shell-debug t)
+;;     (exec-path-from-shell-initialize)))
 
 ;; User lisp packages
 (use-package user-file-backups)
@@ -76,7 +76,8 @@
 (use-package user-dired)
 (use-package user-display :init
   (setq using-small-screen nil)
-  (setq user-display-font "PxPlus IBM VGA8")
+  (if (x-list-fonts "PxPlus IBM VGA8")
+    (setq user-display-font "PxPlus IBM VGA8")) 
   (setq user-display-font-size 22)
   (setq user-display-stream-font-size 26))
 (use-package user-emacs-specifics :init (setq using-elisp-italics nil))
@@ -85,7 +86,7 @@
 (use-package user-grep :init (setq using-ripgrep nil))
 (use-package user-keys :after (user-display))
 (use-package user-lsp)
-(use-package user-macos)
+;; (use-package user-macos :if (memq window-system '(mac ns)))
 (use-package user-notes :after (org user-docket project))
 (use-package user-project :after (project))
 (use-package user-tree-sitter)
