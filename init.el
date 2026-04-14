@@ -140,9 +140,9 @@
     (use-package user-display :init
       (setq using-small-screen nil)
       (if (x-list-fonts "PxPlus IBM VGA8")
-        (setq display-font "PxPlus IBM VGA8")) 
-      (setq display-font-size 22)
-      (setq display-stream-font-size-modifier 4))
+        (setq user-display-font "PxPlus IBM VGA8")) 
+      (setq user-display-font-size 28)
+      (setq user-display-stream-font-size-modifier 20))
     (use-package user-emacs-specifics :init (setq using-elisp-italics nil))
     (use-package user-git :after (magit))
     (use-package user-gpg :after (epa-file))
