@@ -82,13 +82,13 @@
 
 (defun user-notes-find-file ()
   (interactive)
-  (setq default-directory docket-root-folder)
-  (project-find-file))
+  (let ((default-directory docket-root-folder))
+    (project-find-file)))
 
 (defun user-notes-grep ()
   (interactive)
-  (setq default-directory docket-root-folder)
-  (project-find-regexp (project--read-regexp)))
+  (let ((default-directory docket-root-folder))
+    (project-find-regexp (project--read-regexp))))
 
 (global-set-key (kbd "C-c <return>") 'user-notes--open-url-at-point)
 (global-set-key (kbd "C-c a") 'org-agenda)
