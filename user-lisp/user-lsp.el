@@ -54,6 +54,6 @@
 (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 (global-set-key (kbd "M-n") 'eglot-code-actions)
-(global-set-key (kbd "s-b") 'display-local-help)
+(global-set-key (kbd "s-n") 'display-local-help)
 
 (provide 'user-lsp)
