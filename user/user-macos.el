@@ -15,4 +15,3 @@
 ;;   ;; horizontal space at the top!
 ;;   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
 
-(provide 'user-macos)

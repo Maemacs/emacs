@@ -32,4 +32,3 @@ Type 'Ctrl h h' For a quick help popup")
     (set-face-italic 'elisp-bound-variable using-elisp-italics)
     (set-face-italic 'elisp-binding-variable using-elisp-italics)))
 
-(provide 'user-emacs-specifics)

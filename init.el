@@ -125,55 +125,25 @@
     ;;  ⠀⠀⠀⠀⠀⠀⠀⠈⢷⣄⠙⠚⠛⢳⡤⣦⣄⣰⣴⠶⠶⠴⠶⠼⠷⠶⠤⠤⠤⠤⠤⠦⢴⡋⠉⠁⣰⠃⠀⠀⠀⠀⠀⠀
     ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠓⠒⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀
 
+    (setq user-display-font "PxPlus IBM VGA8")
+    (setq user-display-font-size 28)
+    (setq user-display-stream-font-size-modifier 20)
+    (setq using-elisp-italics nil)
+    (setq using-ripgrep nil)
+    (setq use-evil-mode 1)
 
     ;; Load all the user files
-    (mapcar
-      'load
-      (directory-files "~/.config/emacs/user" t ".el"))
+    (mapcar 'load (directory-files "~/.config/emacs/user" t ".el"))
 
-    (use-package user-file-backups)
-    (use-package user-compilation :after (compile))
-    (use-package user-completion :after (ido))
-    (use-package user-confirmations)
-    (use-package user-cursors :after (multiple-cursors))
-    (use-package user-dired)
-    (use-package user-display :init
-      (setq using-small-screen nil)
-      (setq user-display-font "PxPlus IBM VGA8")
-      (setq user-display-font-size 28)
-      (setq user-display-stream-font-size-modifier 20))
-    (use-package user-emacs-specifics :init (setq using-elisp-italics nil))
-    (use-package user-git :after (magit))
-    (use-package user-gpg :after (epa-file))
-    (use-package user-grep :init (setq using-ripgrep nil))
-    (use-package user-keys)
-    (use-package user-lsp)
-    ;; (use-package user-macos :if (memq window-system '(mac ns)))
-    (use-package user-notes :after (org docket project))
-    (use-package user-project :after (project))
-    (use-package user-tree-sitter)
-    (use-package user-kallie
-      :after (evil gruvbox-theme display)
-      :init (setq use-evil-mode 1))
-    (use-package user-web-mode :after (web-mode))
-    (use-package user-npm :after (transient magit project) :config
-      (add-to-list 'project-switch-commands '(project-npm "npm" "n"))
-      (global-set-key (kbd "C-x p n") 'project-npm))
-    (use-package user-startup :after (magit project) :config
-      ;; (defun project-magit-status ()
-      ;;   (interactive "P")
-      ;;   (project-current nil)
-      ;;   (magit-status-setup-buffer))
-
-      ;; These are the commands that show when you select a project with C-x p p
-      (setq project-switch-commands
+    (add-to-list 'project-switch-commands '(project-npm "npm" "n"))
+    (global-set-key (kbd "C-x p n") 'project-npm)
+    (setq project-switch-commands
         '((project-find-file "Find file")
            (project-find-regexp "Find regexp")
            (project-find-dir "Find directory")
            ;; (project-magit-status "Magit" "m") TODO: Fix project selection
            (project-eshell "Eshell")
-           (project-compile "Compile"))))
-    (use-package user-docket :after (org))
+           (project-compile "Compile")))
 
     ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ;;  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

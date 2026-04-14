@@ -38,5 +38,3 @@
 (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 (global-set-key (kbd "M-n") 'eglot-code-actions)
-
-(provide 'user-lsp)

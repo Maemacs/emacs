@@ -88,7 +88,6 @@
 ;; C-x C-e on the expression below:
 ;;   (x-list-fonts "*") <-- Right here!
 (user-display-update-font)
-(error "Font: `%s` not found in x-list-fonts" user-display-font)
 
 ;; Show the file column number on the left hand side!
 (setq column-number-mode t)
@@ -145,4 +144,3 @@
     -padding
     -padding))
 
-(provide 'user-display)

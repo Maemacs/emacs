@@ -5,4 +5,3 @@
 
 (global-set-key (kbd "C-h h") 'help-quick-toggle)
 
-(provide 'user-keys)

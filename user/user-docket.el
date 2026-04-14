@@ -88,4 +88,3 @@
   (interactive)
   (find-file (docket-root-file)))
 
-(provide 'user-docket)

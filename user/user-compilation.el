@@ -9,4 +9,3 @@
 ;; Enables scrolling output by default
 (setq compilation-scroll-output t)
 
-(provide 'user-compilation)

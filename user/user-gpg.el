@@ -2,5 +2,3 @@
 
 (require 'epa-file)
 (epa-file-enable)
-
-(provide 'user-gpg)

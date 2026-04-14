@@ -15,4 +15,3 @@
   ;; Tell 'xref' (the emacs system for code searching) to use rg
   (setq xref-search-program 'ripgrep))
 
-(provide 'user-grep)

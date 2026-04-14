@@ -3,5 +3,3 @@
 (require 'magit)
 
 (defalias 'git 'magit-status)
-
-(provide 'user-git)

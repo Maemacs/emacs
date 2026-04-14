@@ -10,4 +10,3 @@
 ;; Tell Emacs not to create so many of those '#file-name' files
 (setq create-lockfiles nil)
 
-(provide 'user-file-backups)

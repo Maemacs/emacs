@@ -117,4 +117,3 @@
 
 (defalias 'project-npm 'npm)
 
-(provide 'user-npm)

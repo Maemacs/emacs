@@ -8,4 +8,3 @@
 (setq js-indent-level 2)
 (setq web-mode-code-indent-offset 2)
 
-(provide 'user-web-mode)

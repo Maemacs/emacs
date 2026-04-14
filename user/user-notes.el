@@ -6,7 +6,6 @@
 ;; Org files have the extension (.org)
 ;; See: 'https://orgmode.org/'
 (require 'org)
-(require 'user-docket)
 (require 'project)
 
 ;;; You can use templates for different types of capture items, and for different target locations. Say you would like to use one template to create general TODO entries, and you want to put these entries under the heading ‘Tasks’ in your file ‘~/org/gtd.org’. Also, a date tree in the file ‘journal.org’ should capture journal entries. A possible configuration would look like:
@@ -94,4 +93,3 @@
 (global-set-key (kbd "C-c r") 'user-notes-grep)
 (global-set-key (kbd "C-c t") 'org-todo-list)
 
-(provide 'user-notes)

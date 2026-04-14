@@ -14,4 +14,3 @@
 ;; those files over!
 (setq dired-dwim-target t)
 
-(provide 'user-dired)

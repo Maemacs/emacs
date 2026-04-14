@@ -28,4 +28,3 @@
   "M-n" #'completion-preview-next-candidate
   "M-p" #'completion-preview-prev-candidate)
 
-(provide 'user-completion)

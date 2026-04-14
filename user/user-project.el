@@ -25,4 +25,3 @@
 ;; Set 'C-x C-r' to project wide text search
 (global-set-key (kbd "C-x C-r") 'project-find-regexp)
 
-(provide 'user-project)
