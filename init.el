@@ -131,6 +131,7 @@
     (setq using-elisp-italics nil)
     (setq using-ripgrep nil)
     (setq use-evil-mode 1)
+    (setq truncate-lines nil)
 
     ;; Load all the user files
     (mapcar 'load (directory-files "~/.config/emacs/user" t ".el"))
