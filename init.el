@@ -139,8 +139,7 @@
     (use-package user-dired)
     (use-package user-display :init
       (setq using-small-screen nil)
-      (if (x-list-fonts "PxPlus IBM VGA8")
-        (setq user-display-font "PxPlus IBM VGA8")) 
+      (setq user-display-font "PxPlus IBM VGA8")
       (setq user-display-font-size 28)
       (setq user-display-stream-font-size-modifier 20))
     (use-package user-emacs-specifics :init (setq using-elisp-italics nil))

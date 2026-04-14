@@ -87,9 +87,8 @@
 ;; You can get the full list of fonts by running:
 ;; C-x C-e on the expression below:
 ;;   (x-list-fonts "*") <-- Right here!
-(if (x-list-fonts user-display-font)
-  (user-display-update-font)
-  (error "Font: `%s` not found in x-list-fonts" user-display-font))
+(user-display-update-font)
+(error "Font: `%s` not found in x-list-fonts" user-display-font)
 
 ;; Show the file column number on the left hand side!
 (setq column-number-mode t)
