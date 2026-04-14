@@ -91,6 +91,8 @@
 (add-hook 'c-ts-mode 'bind-clang-format)
 (add-hook 'c++-ts-mode 'bind-clang-format)
 (add-hook 'rust-ts-mode 'bind-rust-format)
+(add-to-list 'auto-mode-alist '("\\.celes\\'" . rust-ts-mode))
+
 ;;; Commented out, Not sure if this behavior is actually what is wanted
 ;; (add-hook 'rust-ts-mode 'use-wrapping-lines)
 ;; (add-hook 'text-mode 'use-wrapping-lines)
