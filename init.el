@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
+;; HELLO! If you are getting an error about not having a window system
+;; The issue is most likely caused by the user-lisp/'s directory loading before emacs initalizes the window
+;; There is no fix right now besides renaming user-lisp and loading the user-lisp files during init.el instead
+;;   of the current default, where they are ran before init.el
+
 ;;   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ;;   ⠀⠀⠀⠀⠀⠀⣴⠒⡄⢫⠉⢹⠀⠀⣰⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡄⠀⠀⠀⠀⠀⠀⠀
 ;;   ⠀⠀⠀⢰⡉⠳⡘⠦⠛⠘⠒⠃⠀⢰⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀
